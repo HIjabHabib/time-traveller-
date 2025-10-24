@@ -4,12 +4,6 @@
 The site’s colors, layout, and greetings shift smoothly with the time of day, blending creativity and functionality in a simple, interactive design.  
 Built with **HTML**, **CSS**, and **JavaScript**.
 
-###  Features
-- Detects system time using JavaScript  
-- Smooth background and color transitions  
-- Responsive, single-page layout  
-- Clean and minimal UI  
-
 ##  Group Members
 | Name | Roll Number 
 |------|--------------|
