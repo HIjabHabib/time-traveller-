@@ -1,0 +1,8 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    transition: background-color 1s ease;
+    color: white;
+    margin-top: 20%;
+}
+
