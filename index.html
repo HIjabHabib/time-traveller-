@@ -1,65 +1,19 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Traveler Layout</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <main class="site">
-    <header class="site-header">
-      <div class="brand">
-        <h1 id="title">Time Traveler</h1>
-        <p id="subtitle">A visual journey from sunrise to night</p>
-      </div>
-      <div class="greeting" id="greeting">Good day</div>
-    </header>
 
-    <section class="hero" id="hero">
-      <div class="time-info">
-        <div class="time-large" id="time">--:--:--</div>
-        <div class="time-zone" id="ampm">--</div>
-        <div class="desc" id="desc">Let the day unfold.</div>
-      </div>
-      <div class="scene" id="scene" aria-hidden="true"></div>
-    </section>
-
-    <section class="controls">
-      <label>
-        Simulate time:
-        <input type="range" id="timeSlider" min="0" max="23" step="1" />
-      </label>
-      <button id="autoToggle">Pause Auto</button>
-      <button id="randomize">Random Scene</button>
-    </section>
-
-    <section class="content">
-      <article>
-        <h2>About</h2>
-        <p>
-          Time Traveler Layout blends colors, layout and greeting text with the time of day.
-          Changes are smooth and subtle to create a pleasing, readable site from sunrise to starry night.
-        </p>
-      </article>
-
-      <article>
-        <h2>How it works</h2>
-        <ol>
-          <li>JS checks current local hour (or slider setting).</li>
-          <li>It maps the hour to one of four themes: sunrise, day, sunset, night.</li>
-          <li>Colors, greeting and subtle scene elements animate between states.</li>
-        </ol>
-      </article>
-    </section>
-
-    <footer class="site-footer">
-      <small>&copy; Time Traveler • Built with HTML, CSS & JavaScript</small>
-    </footer>
-  </main>
+<body class="theme-day">
+  <div class="container">
+    <h1 id="greeting">Welcome</h1>
+    <h2 id="time">--:--:--</h2>
+    <p id="description">Synchronizing with system time...</p>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
-
