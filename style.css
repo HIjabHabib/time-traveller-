@@ -115,4 +115,46 @@ body {
 
 .box {
   padding: 20px;
-  background: rgba(255,
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 16px;
+  margin-top: 20px;
+}
+
+#clock {
+  font-size: 3rem;
+  margin: 10px 0;
+}
+
+#ampm {
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  opacity: 0.9;
+}
+
+.controls {
+  margin-top: 15px;
+}
+
+.controls button {
+  padding: 8px 14px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.7);
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: white;
+}
+
+.about {
+  margin-top: 30px;
+  opacity: 0.9;
+}
+
+footer {
+  margin-top: 20px;
+  opacity: 0.5;
+}
