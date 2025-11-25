@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 2. Apply the Layout (CSS Class)
         // First, remove any existing time phase class
-        body.className = '';
+        // Use a more robust way to clear classes, just in case
+        body.className = ''; 
         // Then, add the new time phase class
         body.classList.add(timePhase);
 
@@ -31,16 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
             minute: '2-digit'
         });
         timeDisplayElement.textContent = timeString;
-
-        // The greeting content can be handled purely by the CSS '::after' pseudoelement as shown above,
-        // or set here:
-        // greetingElement.textContent = `Hello! It's currently ${timePhase}.`; 
     }
 
     // Run immediately on load
     updateTimeAndLayout();
 
-    // Set an interval to update the time and layout every 60 seconds (or more frequently)
-    // This is necessary for long-term site viewing/testing to ensure the layout shifts when the hour changes.
+    // Set an interval to update the time and layout every minute
     setInterval(updateTimeAndLayout, 60000); // Updates every minute
 });
