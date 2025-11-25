@@ -1,190 +1,54 @@
-/* --- Base Variables & Setup --- */
-:root {
-    --text-color: #333;
-    --font-family: 'Arial', sans-serif; 
+:root{
+--transition: 800ms cubic-bezier(.2,.9,.2,1);
+--sun-size: 96px;
+--moon-size: 72px;
+--fg: #ffffff;
+--muted: rgba(255,255,255,0.75);
 }
-
-/* Base Body Styles - Centering, Transitions, and Position */
-body {
-    font-family: var(--font-family);
-    min-height: 100vh;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden; 
-    color: var(--text-color);
-    transition: background 1.5s ease-in-out, color 1.5s ease-in-out; 
-    position: relative; /* CRITICAL: Needed for absolute positioning */
-}
-
-/* Pseudo-element for Stars Background (body::before) */
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0; 
-    opacity: 0; 
-    transition: opacity 1.5s ease-in-out; 
-    background: transparent;
-}
-
-/* Common Pseudo-element for Animated Background Object (Sun/Moon) */
-body::after {
-    content: '';
-    position: absolute;
-    top: 0; 
-    left: 0;
-    width: 180px; 
-    height: 180px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    z-index: 0; 
-    opacity: 0; 
-    transition: opacity 1.5s ease-in-out, background-color 1.5s ease-in-out, transform 1.5s ease-in-out; 
-}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
+body{display:flex;align-items:center;justify-content:center;min-height:100vh;color:var(--fg);transition:background var(--transition), color var(--transition);overflow:hidden}
 
 
-.container {
-    text-align: center;
-    width: 90%;
-    max-width: 600px;
-    z-index: 1; 
-}
+/* Time-of-day themes */
+body[data-time="dawn"]{background:linear-gradient(180deg,#fff2e6 0%, #ffd6a5 40%, #ffd6a523 60%)}
+body[data-time="morning"]{background:linear-gradient(180deg,#e0f7ff 0%, #bfe9ff 45%, #98d7ff 100%)}
+body[data-time="afternoon"]{background:linear-gradient(180deg,#cbe6ff 0%, #88c9ff 50%, #63b1ff 100%)}
+body[data-time="dusk"]{background:linear-gradient(180deg,#ffd6a5 0%, #ff9f7a 50%, #5b3b8a 100%)}
+body[data-time="night"]{background:linear-gradient(180deg,#001026 0%, #001a33 50%, #0b1530 100%)}
 
-/* ... Content and Footer Styling ... */
-#greeting {
-    font-size: 3em;
-    font-weight: 300; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.2em;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.2); 
-}
-#content-area p {
-    font-size: 1.2em;
-    opacity: 0.8;
-}
-footer {
-    position: absolute;
-    bottom: 20px;
-    font-size: 0.9em;
-    opacity: 0.7;
-    z-index: 1;
-}
-#time-icon::before {
-    font-size: 0.8em;
-    margin-right: 15px;
-    display: inline-block;
-}
 
-/* --- Keyframes --- */
-@keyframes sunriseAnimation {
-    0% { top: 120%; right: 0; opacity: 0; } 
-    50% { top: 50%; left: 50%; opacity: 1; } 
-    100% { top: 20%; right: 20%; left: auto; opacity: 1; }
-}
-@keyframes sunsetAnimation {
-    0% { top: 20%; right: 20%; left: auto; opacity: 1; } 
-    50% { top: 50%; left: 50%; opacity: 1; }
-    100% { top: 120%; left: 0%; opacity: 0; } 
-}
-@keyframes moonTwinkle {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    25% { transform: scale(1.05) rotate(5deg); }
-    75% { transform: scale(0.95) rotate(-5deg); }
-}
-@keyframes starTwinkle {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 1; }
-}
+/* Container */
+.stage{width:min(1100px,94vw);height:min(680px,86vh);border-radius:20px;padding:28px;position:relative;box-shadow:0 10px 40px rgba(2,6,23,0.35);backdrop-filter: blur(6px);overflow:hidden}
 
-/* --- Phase-Specific Styling with Gradients & Animations --- */
 
-/* 🌅 MORNING */
-.morning {
-    --text-color: #554000;
-    background: linear-gradient(to top right, #ffdd99, #ffb366); 
-}
-.morning #time-icon::before { content: "☀️"; }
-.morning #greeting-text::before { content: "Good Morning! "; }
-.morning body::after {
-    opacity: 1;
-    background-color: #ffeb3b;
-    border-radius: 50%;
-    animation: sunriseAnimation 8s ease-out forwards; 
-}
-
-/* ☀️ AFTERNOON */
-.afternoon {
-    --text-color: #0d386d;
-    background: linear-gradient(to bottom left, #87ceeb, #5cadff); 
-}
-.afternoon #time-icon::before { content: "⛅"; }
-.afternoon #greeting-text::before { content: "Good Afternoon! "; }
-.afternoon body::after {
-    opacity: 1;
-    top: 20%; 
-    right: 20%; 
-    background-color: #ffeb3b;
-    border-radius: 50%;
-}
-
-/* 🌇 EVENING */
-.evening {
-    --text-color: #ffffff;
-    background: linear-gradient(to top, #ff7f7f, #cc6699); 
-}
-.evening #time-icon::before { content: "🌆"; }
-.evening #greeting-text::before { content: "Good Evening! "; }
-.evening body::after {
-    opacity: 1;
-    background-color: #ff9800;
-    border-radius: 50%;
-    animation: sunsetAnimation 8s ease-out forwards; 
-}
-
-/* 🌃 NIGHT */
-.night {
-    --text-color: #d1d1ff;
-    background: linear-gradient(to bottom, #1a237e, #4c529d); 
-}
-.night #time-icon::before { content: "🌙"; }
-.night #greeting-text::before { content: "Good Night! "; }
-
-/* 🌙 Animated Smiley Moon FIX */
-.night body::after {
-    opacity: 1;
-    top: 15%; 
-    right: 15%; 
-    left: auto; 
-    
-    /* FIX: Correctly URL-encoded SVG */
-    background-image: url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="40" fill="%23fcfbe2"/%3E%3Cpath d="M 30 40 Q 35 30 40 40 M 60 40 Q 65 30 70 40 M 35 65 Q 50 75 65 65" stroke="%23333" stroke-width="3" fill="none" stroke-linecap="round"/%3E%3C/path%3E%3C/svg%3E');
-    
-    background-color: transparent; 
-    background-size: contain;
-    border-radius: 0;
-    /* Apply twinkling animation */
-    animation: moonTwinkle 10s ease-in-out infinite alternate;
-}
-
-/* ✨ Stars for Night FIX */
-.night body::before {
-    opacity: 1; 
-    /* FIX: Ensure background is transparent and only box-shadow is active */
-    background: transparent; 
-    
-    /* Star Field Definition */
-    box-shadow: 
-        10vw 80vh 2px 2px #fff, 25vw 20vh 1px 1px #fff, 45vw 50vh 2px 2px #fff, 
-        60vw 10vh 1px 1px #fff, 80vw 60vh 2px 2px #fff, 5vw 5vh 1px 1px #fff, 
-        90vw 90vh 1px 1px #fff, 70vw 30vh 2px 2px #fff, 35vw 95vh 1px 1px #fff, 
-        55vw 25vh 2px 2px #fff, 85vw 5vh 1px 1px #fff, 15vw 70vh 1px 1px #fff;
-    /* Apply twinkling animation */
-    animation: starTwinkle 8s ease-in-out infinite alternate; 
-}
+/* Sky elements */
+.horizon{position:absolute;left:0;right:0;bottom:0;height:55%;pointer-events:none}
+.celestial{position:absolute;left:50%;transform:translateX(-50%);top:12%;transition:top var(--transition), left var(--transition), transform var(--transition)}
+.sun{width:var(--sun-size);height:var(--sun-size);border-radius:50%;box-shadow:0 12px 40px rgba(255,180,60,0.28), inset 0 -6px 20px rgba(255,230,200,0.25);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.sun::after{content:'';position:absolute;inset:-24px;border-radius:50%;filter:blur(20px);opacity:0.65}
+.moon{width:var(--moon-size);height:var(--moon-size);border-radius:50%;background:linear-gradient(180deg,#f0f6ff 0%, #dfefff 100%);box-shadow:0 6px 18px rgba(0,0,0,0.28);position:relative}
+.moon::before{content:'';position:absolute;right:-12px;top:8px;width:60%;height:60%;border-radius:50%;background:rgba(0,0,0,0.06)}
+.cloud{position:absolute;top:18%;left:-15%;width:220px;height:60px;border-radius:40px;background:rgba(255,255,255,0.9);filter:blur(0.2px);opacity:0.95;box-shadow:0 8px 20px rgba(0,0,0,0.05)}
+.cloud.small{width:140px;height:44px;top:32%;opacity:0.85}
+.cloud::before,.cloud::after{content:'';position:absolute;border-radius:50%;background:inherit}
+.cloud::before{width:72px;height:72px;left:12px;top:-20px}
+.cloud::after{width:82px;height:82px;right:18px;top:-30px}
+@keyframes floatClouds{from{transform:translateX(-30vw)}to{transform:translateX(140vw)}}
+.cloud{animation:floatClouds 42s linear infinite}
+.cloud.small{animation-duration:34s}
+.stars{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1100ms ease}
+body[data-time="night"] .stars{opacity:1}
+.panel{position:relative;z-index:6;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));padding:28px;border-radius:12px;backdrop-filter: blur(6px);min-height:240px;display:flex;flex-direction:column;gap:10px}
+.title{font-size:22px;font-weight:700;letter-spacing:-0.01em}
+.greeting{font-size:40px;font-weight:800;line-height:1.02}
+.sub{color:var(--muted);font-size:14px}
+.meta{display:flex;gap:12px;align-items:center;margin-top:auto}
+.clock{font-family:monospace;padding:8px 10px;background:rgba(0,0,0,0.12);border-radius:8px;font-weight:600}
+.btn{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.06);cursor:pointer}
+.ground{position:absolute;bottom:0;left:0;right:0;height:26%;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.14));display:flex;align-items:flex-end;justify-content:center}
+.silhouette{width:100%;height:80px;background:linear-gradient(180deg,rgba(0,0,0,0.18),rgba(0,0,0,0.32));border-top-left-radius:40% 30px;border-top-right-radius:40% 30px}
+@media (max-width:720px){.greeting{font-size:28px}.title{font-size:18px}.stage{padding:18px;border-radius:14px}}
+.arc-move{transform-origin:50% 220px}
+.sun, .moon{transition:transform var(--transition) cubic-bezier(.2,.9,.2,1)}
+.btn:focus{outline:3px solid rgba(255,255,255,0.18);outline-offset:3px}
