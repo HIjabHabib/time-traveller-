@@ -1,17 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Time Traveler Layout</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time Traveler</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body class="theme-day">
+
+  <!-- STAR FIELD (night mode only) -->
+  <div id="stars"></div>
+
+  <!-- CLOUDS -->
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+
   <div class="container">
-    <h1 id="greeting">Welcome</h1>
-    <h2 id="time">--:--:--</h2>
-    <p id="description">Synchronizing with system time...</p>
+
+    <h1 class="title">Time Traveler</h1>
+    <p class="subtitle">A visual journey from sunrise to night</p>
+
+    <div class="box">
+
+      <h2 id="greeting">Good Day</h2>
+      <div id="clock">--:--:--</div>
+      <div id="ampm">--</div>
+      <p id="desc">Loading time…</p>
+
+      <hr />
+
+      <div class="controls">
+        <label>Simulate time:</label>
+        <input type="range" id="timeSlider" min="0" max="23" value="12">
+
+        <button id="pauseBtn">Pause Auto</button>
+        <button id="randomBtn">Random Scene</button>
+      </div>
+
+    </div>
+
+    <section class="about">
+      <h3>About</h3>
+      <p>
+        Time Traveler Layout blends colors, layout and greeting text with the time of day.
+        Changes are smooth and subtle to create a pleasing, readable site from sunrise to starry night.
+      </p>
+
+      <h3>How it works</h3>
+      <p>
+        JS checks current local hour (or slider setting).<br>
+        It maps the hour to one of four themes: sunrise, day, sunset, night.<br>
+        Colors, greeting and scene elements animate between states.
+      </p>
+
+      <footer>
+        © Time Traveler • Built with HTML, CSS & JavaScript
+      </footer>
+    </section>
+
   </div>
 
   <script src="script.js"></script>
