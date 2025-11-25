@@ -15,27 +15,10 @@ body {
     overflow: hidden; 
     color: var(--text-color);
     transition: background 1.5s ease-in-out, color 1.5s ease-in-out; 
-    position: relative; /* Needed for absolute positioning of all pseudo-elements */
+    position: relative; /* CRITICAL: Needed for absolute positioning */
 }
 
-/* --- Common Pseudo-element for Animated Background Object (Sun/Moon) --- */
-body::after {
-    content: '';
-    position: absolute;
-    /* Initial state, will be overridden by phase-specific styles */
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    z-index: 0; /* Behind content */
-    opacity: 0; /* Hidden by default */
-    transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out; /* Smooth fade and position change */
-}
-
-/* --- Pseudo-element for Stars Background (Only for Night) --- */
+/* Pseudo-element for Stars Background (body::before) */
 body::before {
     content: '';
     position: absolute;
@@ -43,10 +26,26 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0; /* Behind content, behind sun/moon if needed */
-    opacity: 0; /* Hidden by default */
+    z-index: 0; 
+    opacity: 0; 
     transition: opacity 1.5s ease-in-out; 
-    background: transparent; /* No background by default */
+    background: transparent; /* Ensures it doesn't block body background */
+}
+
+/* Common Pseudo-element for Animated Background Object (Sun/Moon) */
+body::after {
+    content: '';
+    position: absolute;
+    top: 0; /* Let the phase control the positioning */
+    left: 0;
+    width: 180px; 
+    height: 180px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 0; 
+    opacity: 0; 
+    /* Add smooth transition to properties being animated */
+    transition: opacity 1.5s ease-in-out, background-color 1.5s ease-in-out, transform 1.5s ease-in-out; 
 }
 
 
@@ -54,10 +53,10 @@ body::before {
     text-align: center;
     width: 90%;
     max-width: 600px;
-    z-index: 1; /* Content must be above all background layers */
+    z-index: 1; 
 }
 
-/* Header and Content Styling */
+/* ... Content and Footer Styling (remains the same) ... */
 #greeting {
     font-size: 3em;
     font-weight: 300; 
@@ -67,13 +66,10 @@ body::before {
     margin-bottom: 0.2em;
     text-shadow: 1px 1px 5px rgba(0,0,0,0.2); 
 }
-
 #content-area p {
     font-size: 1.2em;
     opacity: 0.8;
 }
-
-/* Current Time Display */
 footer {
     position: absolute;
     bottom: 20px;
@@ -81,81 +77,22 @@ footer {
     opacity: 0.7;
     z-index: 1;
 }
-
-/* Icon Styling */
 #time-icon::before {
     font-size: 0.8em;
     margin-right: 15px;
     display: inline-block;
 }
 
-/* --- Phase-Specific Styling with Gradients & ANIMATIONS --- */
-
-/* 🌅 MORNING (05:00 - 11:59) */
+/* --- Keyframes --- */
 @keyframes sunriseAnimation {
-    0% { top: 100%; left: 0%; opacity: 0; } /* Start below bottom-left */
-    50% { top: 50%; left: 50%; opacity: 1; } /* Rise to center */
-    100% { top: 20%; left: 80%; opacity: 1; } /* Settle in morning position */
+    0% { top: 120%; right: 0; opacity: 0; } 
+    50% { top: 50%; left: 50%; opacity: 1; } 
+    100% { top: 20%; right: 20%; left: auto; opacity: 1; }
 }
-.morning {
-    --text-color: #554000;
-    background: linear-gradient(to top right, #ffdd99, #ffb366); 
-}
-.morning #time-icon::before { content: "☀️"; }
-.morning #greeting-text::before { content: "Good Morning! "; }
-.morning body::after {
-    opacity: 1;
-    background-color: #ffeb3b; /* Sun color */
-    border-radius: 50%;
-    width: 180px;
-    height: 180px;
-    animation: sunriseAnimation 8s ease-out forwards; /* Sun rises */
-}
-
-/* ☀️ AFTERNOON (12:00 - 17:59) */
-.afternoon {
-    --text-color: #0d386d;
-    background: linear-gradient(to bottom left, #87ceeb, #5cadff); 
-}
-.afternoon #time-icon::before { content: "⛅"; }
-.afternoon #greeting-text::before { content: "Good Afternoon! "; }
-.afternoon body::after {
-    opacity: 1;
-    top: 20%; /* Fixed top-left position for afternoon sun */
-    left: 80%;
-    transform: translate(-50%, -50%);
-    background-color: #ffeb3b;
-    border-radius: 50%;
-    width: 180px;
-    height: 180px;
-    /* No animation on load, just holds position */
-}
-
-/* 🌇 EVENING (18:00 - 20:59) */
 @keyframes sunsetAnimation {
-    0% { top: 20%; left: 80%; opacity: 1; } /* Start from afternoon position */
-    50% { top: 50%; left: 50%; opacity: 1; } /* Descend to center */
-    100% { top: 100%; left: 0%; opacity: 0; } /* Set below bottom-left */
-}
-.evening {
-    --text-color: #ffffff;
-    background: linear-gradient(to top, #ff7f7f, #cc6699); 
-}
-.evening #time-icon::before { content: "🌆"; }
-.evening #greeting-text::before { content: "Good Evening! "; }
-.evening body::after {
-    opacity: 1;
-    background-color: #ff9800; /* Orange/red sun color */
-    border-radius: 50%;
-    width: 180px;
-    height: 180px;
-    animation: sunsetAnimation 8s ease-out forwards; /* Sun sets */
-}
-
-/* 🌃 NIGHT (21:00 - 04:59) */
-@keyframes moonRiseAnimation {
-    0% { top: 100%; left: 100%; opacity: 0; } /* Start from bottom-right */
-    100% { top: 15%; left: 75%; opacity: 1; } /* Rise to night position */
+    0% { top: 20%; right: 20%; left: auto; opacity: 1; } 
+    50% { top: 50%; left: 50%; opacity: 1; }
+    100% { top: 120%; left: 0%; opacity: 0; } 
 }
 @keyframes moonTwinkle {
     0%, 100% { transform: scale(1) rotate(0deg); }
@@ -167,6 +104,51 @@ footer {
     50% { opacity: 1; }
 }
 
+/* 🌅 MORNING */
+.morning {
+    --text-color: #554000;
+    background: linear-gradient(to top right, #ffdd99, #ffb366); 
+}
+.morning #time-icon::before { content: "☀️"; }
+.morning #greeting-text::before { content: "Good Morning! "; }
+.morning body::after {
+    opacity: 1;
+    background-color: #ffeb3b;
+    border-radius: 50%;
+    animation: sunriseAnimation 8s ease-out forwards; 
+}
+
+/* ☀️ AFTERNOON */
+.afternoon {
+    --text-color: #0d386d;
+    background: linear-gradient(to bottom left, #87ceeb, #5cadff); 
+}
+.afternoon #time-icon::before { content: "⛅"; }
+.afternoon #greeting-text::before { content: "Good Afternoon! "; }
+.afternoon body::after {
+    opacity: 1;
+    top: 20%; 
+    right: 20%; 
+    background-color: #ffeb3b;
+    border-radius: 50%;
+    /* Position is static, no animation needed */
+}
+
+/* 🌇 EVENING */
+.evening {
+    --text-color: #ffffff;
+    background: linear-gradient(to top, #ff7f7f, #cc6699); 
+}
+.evening #time-icon::before { content: "🌆"; }
+.evening #greeting-text::before { content: "Good Evening! "; }
+.evening body::after {
+    opacity: 1;
+    background-color: #ff9800;
+    border-radius: 50%;
+    animation: sunsetAnimation 8s ease-out forwards; 
+}
+
+/* 🌃 NIGHT (Current Phase) */
 .night {
     --text-color: #d1d1ff;
     background: linear-gradient(to bottom, #1a237e, #4c529d); 
@@ -174,40 +156,31 @@ footer {
 .night #time-icon::before { content: "🌙"; }
 .night #greeting-text::before { content: "Good Night! "; }
 
-/* Animated Smiley Moon */
+/* Animated Smiley Moon FIXES */
 .night body::after {
     opacity: 1;
     top: 15%; 
-    left: 75%;
-    transform: translate(-50%, -50%); /* Center the moon on its position */
+    right: 15%; 
+    left: auto; 
+    
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23fcfbe2"/><path d="M 30 40 Q 35 30 40 40 M 60 40 Q 65 30 70 40 M 35 65 Q 50 75 65 65" stroke="%23333" stroke-width="3" fill="none" stroke-linecap="round"/></svg>');
-    background-color: transparent; /* No solid background color */
-    width: 150px; /* Adjust size as needed */
-    height: 150px;
-    border-radius: 0; /* Not a circle, but an SVG */
-    animation: moonRiseAnimation 5s ease-out forwards, moonTwinkle 10s ease-in-out infinite alternate;
+    background-color: transparent; 
+    border-radius: 0;
+    animation: moonTwinkle 10s ease-in-out infinite alternate;
 }
 
-/* Stars for Night (via body::before) */
+/* Stars for Night FIXES */
 .night body::before {
     opacity: 1; 
-    /* Star Field Definition (x y blur size color) using box-shadow */
+    /* Star Field Definition (x y blur size color) - using 1vw/1vh units for relative positioning */
     box-shadow: 
-        30vw 20vh 1px 1px #fff,
-        50vw 70vh 1px 1px #fff,
-        80vw 40vh 1px 1px #fff,
-        10vw 90vh 1px 1px #fff,
-        95vw 10vh 1px 1px #fff,
-        25vw 55vh 1px 1px #fff,
-        65vw 35vh 1px 1px #fff,
-        40vw 10vh 1px 1px #fff,
-        88vw 88vh 1px 1px #fff,
-        5vw 50vh 1px 1px #fff,
-        70vw 5vh 1px 1px #fff,
-        /* Add more stars as desired */
-        15vw 15vh 1px 1px #fff,
-        45vw 85vh 1px 1px #fff,
-        75vw 25vh 1px 1px #fff,
-        55vw 5vh 1px 1px #fff;
-    animation: starTwinkle 8s ease-in-out infinite alternate; /* Stars twinkle */
+        10vw 80vh 2px 2px #fff,
+        25vw 20vh 1px 1px #fff,
+        45vw 50vh 2px 2px #fff,
+        60vw 10vh 1px 1px #fff,
+        80vw 60vh 2px 2px #fff,
+        5vw 5vh 1px 1px #fff,
+        90vw 90vh 1px 1px #fff,
+        70vw 30vh 2px 2px #fff;
+    animation: starTwinkle 8s ease-in-out infinite alternate; 
 }
