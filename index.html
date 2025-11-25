@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Traveler Layout</title>
     <link rel="stylesheet" href="style.css">
-</head>
+    </head>
 <body id="time-traveler-body">
-    <header>
-        <h1 id="greeting">Loading Time...</h1>
-    </header>
+    <div class="container">
+        <header>
+            <h1 id="greeting">
+                <span id="time-icon"></span>
+                <span id="greeting-text">Loading Time...</span>
+            </h1>
+        </header>
 
-    <main id="content-area">
-        <p>This content changes appearance throughout the day!</p>
-    </main>
+        <main id="content-area">
+            <p>This content changes appearance throughout the day!</p>
+        </main>
 
-    <footer>
-        <p>Current Time: <span id="time-display">--:--</span></p>
-    </footer>
+        <footer>
+            <p>Current Time: <span id="time-display">--:--</span></p>
+        </footer>
+    </div>
 
     <script src="script.js"></script>
 </body>
