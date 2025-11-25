@@ -1,7 +1,6 @@
 /* --- Base Variables & Setup --- */
 :root {
     --text-color: #333;
-    --background-start-color: #f4f4f4;
     --font-family: 'Arial', sans-serif; 
 }
 
@@ -15,24 +14,40 @@ body {
     justify-content: center;
     overflow: hidden; 
     color: var(--text-color);
-    /* Essential for smooth shifts between phases */
-    transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out; 
+    /* Essential for smooth shifts between phases - now transitions 'background' */
+    transition: background 1.5s ease-in-out, color 1.5s ease-in-out; 
+    position: relative; /* Needed for absolute positioning of stars/moon */
+}
+
+/* Background pseudo-element for elements like stars/moon to appear behind content */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Ensures it's behind the content */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 1.5s ease-in-out; /* Smooth transition for elements appearing */
 }
 
 .container {
     text-align: center;
     width: 90%;
     max-width: 600px;
+    z-index: 1; /* Ensures content is above background elements */
 }
 
 /* Header and Content Styling */
 #greeting {
     font-size: 3em;
-    font-weight: 300; /* Lighter font weight for a clean look */
+    font-weight: 300; 
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 0.2em;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.2); /* Enhanced shadow for contrast */
 }
 
 #content-area p {
@@ -46,23 +61,22 @@ footer {
     bottom: 20px;
     font-size: 0.9em;
     opacity: 0.7;
+    z-index: 1;
 }
 
-/* --- Keyframe Animations (For Subtle Movement) --- */
-/* These make the background color gently pulse */
-@keyframes pulse {
-    0% { filter: brightness(100%); }
-    50% { filter: brightness(105%); }
-    100% { filter: brightness(100%); }
+/* Icon Styling */
+#time-icon::before {
+    font-size: 0.8em;
+    margin-right: 15px;
+    display: inline-block;
 }
 
-/* --- Phase-Specific Styling and Animations --- */
+/* --- Phase-Specific Styling with Gradients & Elements --- */
 
 /* 🌅 MORNING (05:00 - 11:59) */
 .morning {
     --text-color: #554000;
-    background-color: #ffcc66; /* Sunny Yellow */
-    animation: pulse 10s ease-in-out infinite alternate;
+    background: linear-gradient(to top right, #ffdd99, #ffb366); /* Soft morning glow */
 }
 .morning #time-icon::before { content: "☀️"; }
 .morning #greeting-text::before { content: "Good Morning! "; }
@@ -70,8 +84,7 @@ footer {
 /* ☀️ AFTERNOON (12:00 - 17:59) */
 .afternoon {
     --text-color: #0d386d;
-    background-color: #66b3ff; /* Sky Blue */
-    animation: pulse 10s ease-in-out infinite alternate;
+    background: linear-gradient(to bottom left, #87ceeb, #5cadff); /* Clear sky blue */
 }
 .afternoon #time-icon::before { content: "⛅"; }
 .afternoon #greeting-text::before { content: "Good Afternoon! "; }
@@ -79,8 +92,7 @@ footer {
 /* 🌇 EVENING (18:00 - 20:59) */
 .evening {
     --text-color: #ffffff;
-    background-color: #ff7f7f; /* Sunset Red/Orange */
-    animation: pulse 10s ease-in-out infinite alternate;
+    background: linear-gradient(to top, #ff7f7f, #cc6699); /* Sunset colors */
 }
 .evening #time-icon::before { content: "🌆"; }
 .evening #greeting-text::before { content: "Good Evening! "; }
@@ -88,15 +100,36 @@ footer {
 /* 🌃 NIGHT (21:00 - 04:59) */
 .night {
     --text-color: #d1d1ff;
-    background-color: #1c2b53; /* Deep Midnight Blue */
-    animation: pulse 10s ease-in-out infinite alternate;
+    background: linear-gradient(to bottom, #1a237e, #4c529d); /* Deep space blue */
 }
 .night #time-icon::before { content: "🌙"; }
 .night #greeting-text::before { content: "Good Night! "; }
 
-/* Icon Styling (makes the emoji look like an icon) */
-#time-icon::before {
-    font-size: 0.8em;
-    margin-right: 15px;
-    display: inline-block;
+/* --- Night Specific Elements (Stars and Moon) --- */
+
+/* Stars with radial-gradient and multiple box-shadows */
+.night body::before {
+    opacity: 1; /* Make stars/moon visible */
+    background: 
+        /* Moon - using a small radial gradient */
+        radial-gradient(circle at 75% 15%, rgba(255,255,255,0.8) 0%, transparent 40%),
+        /* Stars - using radial gradients for random placement */
+        radial-gradient(2px 2px at 20% 80%, #fff, transparent),
+        radial-gradient(2px 2px at 60% 70%, #fff, transparent),
+        radial-gradient(1px 1px at 85% 50%, #fff, transparent),
+        radial-gradient(1px 1px at 10% 30%, #fff, transparent),
+        radial-gradient(2px 2px at 40% 10%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 90% 90%, #fff, transparent),
+        radial-gradient(1px 1px at 5% 5%, #fff, transparent),
+        radial-gradient(2px 2px at 70% 30%, #fff, transparent);
+    background-size: 100% 100%; /* Ensures gradients cover the whole area */
 }
+
+/* Optional: Subtle animation for stars to twinkle or slowly move */
+/* @keyframes twinkle {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+.night body::before {
+    animation: twinkle 5s ease-in-out infinite alternate;
+} */
