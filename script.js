@@ -1,90 +1,46 @@
-let autoMode = true;
-let stars = document.getElementById("stars");
+document.addEventListener('DOMContentLoaded', function() {
+    const body = document.getElementById('time-traveler-body');
+    const greetingElement = document.getElementById('greeting');
+    const timeDisplayElement = document.getElementById('time-display');
 
-// Create stars dynamically
-function createStars() {
-  for (let i = 0; i < 120; i++) {
-    let star = document.createElement("div");
-    star.className = "star";
-    star.style.top = Math.random() * 100 + "%";
-    star.style.left = Math.random() * 100 + "%";
-    star.style.animationDelay = (Math.random() * 2) + "s";
-    stars.appendChild(star);
-  }
-}
-createStars();
+    function updateTimeAndLayout() {
+        const now = new Date();
+        const hour = now.getHours();
+        let timePhase = '';
 
-function updateScene(hour) {
-  let greeting, desc, theme;
+        // 1. Determine the Time Phase
+        if (hour >= 5 && hour < 12) {
+            timePhase = 'morning';      // 5:00 to 11:59
+        } else if (hour >= 12 && hour < 18) {
+            timePhase = 'afternoon';    // 12:00 to 17:59
+        } else if (hour >= 18 && hour < 21) {
+            timePhase = 'evening';      // 18:00 to 20:59
+        } else {
+            timePhase = 'night';        // 21:00 to 4:59
+        }
 
-  if (hour >= 5 && hour < 9) {
-    theme = "theme-sunrise";
-    greeting = "Good Morning";
-    desc = "Warm tones rise with the new day.";
-    stars.style.opacity = 0;
-  }
-  else if (hour >= 9 && hour < 17) {
-    theme = "theme-day";
-    greeting = "Good Day";
-    desc = "Bright skies and drifting clouds.";
-    stars.style.opacity = 0;
-  }
-  else if (hour >= 17 && hour < 20) {
-    theme = "theme-sunset";
-    greeting = "Good Evening";
-    desc = "Soft orange hues slow the world down.";
-    stars.style.opacity = 0;
-  }
-  else {
-    theme = "theme-night";
-    greeting = "Good Night";
-    desc = "Dark sky with twinkling stars.";
-    stars.style.opacity = 1;
-  }
+        // 2. Apply the Layout (CSS Class)
+        // First, remove any existing time phase class
+        body.className = '';
+        // Then, add the new time phase class
+        body.classList.add(timePhase);
 
-  document.body.className = theme;
-  document.getElementById("greeting").textContent = greeting;
-  document.getElementById("desc").textContent = desc;
-}
+        // 3. Update Time Display
+        const timeString = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        timeDisplayElement.textContent = timeString;
 
-// Auto-update clock
-function runClock() {
-  if (!autoMode) return;
+        // The greeting content can be handled purely by the CSS '::after' pseudoelement as shown above,
+        // or set here:
+        // greetingElement.textContent = `Hello! It's currently ${timePhase}.`; 
+    }
 
-  let now = new Date();
-  let h = now.getHours();
-  let m = now.getMinutes();
-  let s = now.getSeconds();
+    // Run immediately on load
+    updateTimeAndLayout();
 
-  document.getElementById("clock").textContent =
-    `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-
-  document.getElementById("ampm").textContent = h >= 12 ? "PM" : "AM";
-
-  updateScene(h);
-}
-
-setInterval(runClock, 1000);
-runClock();
-
-// Slider control
-let slider = document.getElementById("timeSlider");
-slider.addEventListener("input", () => {
-  autoMode = false;
-  updateScene(parseInt(slider.value));
+    // Set an interval to update the time and layout every 60 seconds (or more frequently)
+    // This is necessary for long-term site viewing/testing to ensure the layout shifts when the hour changes.
+    setInterval(updateTimeAndLayout, 60000); // Updates every minute
 });
-
-// Pause/resume auto mode
-document.getElementById("pauseBtn").onclick = () => {
-  autoMode = !autoMode;
-  document.getElementById("pauseBtn").textContent =
-    autoMode ? "Pause Auto" : "Resume Auto";
-};
-
-// Random scene
-document.getElementById("randomBtn").onclick = () => {
-  let randomHour = Math.floor(Math.random() * 24);
-  slider.value = randomHour;
-  autoMode = false;
-  updateScene(randomHour);
-};
