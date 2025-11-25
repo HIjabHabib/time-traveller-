@@ -1,92 +1,102 @@
-/* Base Styles - Reset any existing body classes */
+/* --- Base Variables & Setup --- */
+:root {
+    --text-color: #333;
+    --background-start-color: #f4f4f4;
+    --font-family: 'Arial', sans-serif; 
+}
+
+/* Base Body Styles - Centering and Transitions */
 body {
-    font-family: sans-serif;
+    font-family: var(--font-family);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Center content vertically */
     margin: 0;
-    overflow: hidden; /* Prevent scrollbars if content is minimal */
-    color: var(--text-color, #333); /* Default text color */
-    background: var(--background-start-color, #f4f4f4); /* Default background start */
-    transition: background 1.5s ease-in-out, color 1.5s ease-in-out; /* Smooth transition when changing phases */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; 
+    color: var(--text-color);
+    /* Essential for smooth shifts between phases */
+    transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out; 
 }
 
-/* Common text styling for better visibility */
-h1, p, footer {
-    z-index: 10; /* Ensure text is above animated background */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3); /* Add some shadow for contrast */
-}
-
-/* --- ANIMATED BACKGROUNDS (CSS Keyframes) --- */
-
-/* 🌅 MORNING ANIMATION */
-@keyframes morningGradient {
-    0% { background-color: #ffe0b2; /* Light Peach */ }
-    50% { background-color: #ffcc80; /* Orange Peel */ }
-    100% { background-color: #ffe0b2; }
-}
-.morning {
-    --text-color: #3d3d3d;
-    animation: morningGradient 10s ease-in-out infinite alternate;
-}
-.morning #greeting::after { content: " Good Morning!"; }
-
-/* ☀️ AFTERNOON ANIMATION */
-@keyframes afternoonGradient {
-    0% { background-color: #90caf9; /* Light Blue */ }
-    50% { background-color: #64b5f6; /* Dodger Blue */ }
-    100% { background-color: #90caf9; }
-}
-.afternoon {
-    --text-color: #2a2a2a;
-    animation: afternoonGradient 10s ease-in-out infinite alternate;
-}
-.afternoon #greeting::after { content: " Good Afternoon!"; }
-
-/* 🌇 EVENING ANIMATION */
-@keyframes eveningGradient {
-    0% { background-color: #ef9a9a; /* Sunset Red */ }
-    50% { background-color: #f48fb1; /* Pink */ }
-    100% { background-color: #ef9a9a; }
-}
-.evening {
-    --text-color: #f0f0f0;
-    animation: eveningGradient 10s ease-in-out infinite alternate;
-}
-.evening #greeting::after { content: " Good Evening!"; }
-
-/* 🌃 NIGHT ANIMATION */
-@keyframes nightGradient {
-    0% { background-color: #1a237e; /* Deep Indigo */ }
-    50% { background-color: #303f9f; /* Dark Blue */ }
-    100% { background-color: #1a237e; }
-}
-.night {
-    --text-color: #e0e0e0;
-    animation: nightGradient 10s ease-in-out infinite alternate;
-}
-.night #greeting::after { content: " Good Night!"; }
-
-/* Additional Styling for Content (Optional but Recommended) */
-header, main, footer {
+.container {
     text-align: center;
-    padding: 10px;
-    width: 80%;
+    width: 90%;
     max-width: 600px;
 }
 
+/* Header and Content Styling */
 #greeting {
-    font-size: 2.5em;
-    margin-bottom: 20px;
+    font-size: 3em;
+    font-weight: 300; /* Lighter font weight for a clean look */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.2em;
 }
 
 #content-area p {
     font-size: 1.2em;
-    line-height: 1.5;
+    opacity: 0.8;
 }
 
-#time-display {
-    font-weight: bold;
+/* Current Time Display */
+footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+/* --- Keyframe Animations (For Subtle Movement) --- */
+/* These make the background color gently pulse */
+@keyframes pulse {
+    0% { filter: brightness(100%); }
+    50% { filter: brightness(105%); }
+    100% { filter: brightness(100%); }
+}
+
+/* --- Phase-Specific Styling and Animations --- */
+
+/* 🌅 MORNING (05:00 - 11:59) */
+.morning {
+    --text-color: #554000;
+    background-color: #ffcc66; /* Sunny Yellow */
+    animation: pulse 10s ease-in-out infinite alternate;
+}
+.morning #time-icon::before { content: "☀️"; }
+.morning #greeting-text::before { content: "Good Morning! "; }
+
+/* ☀️ AFTERNOON (12:00 - 17:59) */
+.afternoon {
+    --text-color: #0d386d;
+    background-color: #66b3ff; /* Sky Blue */
+    animation: pulse 10s ease-in-out infinite alternate;
+}
+.afternoon #time-icon::before { content: "⛅"; }
+.afternoon #greeting-text::before { content: "Good Afternoon! "; }
+
+/* 🌇 EVENING (18:00 - 20:59) */
+.evening {
+    --text-color: #ffffff;
+    background-color: #ff7f7f; /* Sunset Red/Orange */
+    animation: pulse 10s ease-in-out infinite alternate;
+}
+.evening #time-icon::before { content: "🌆"; }
+.evening #greeting-text::before { content: "Good Evening! "; }
+
+/* 🌃 NIGHT (21:00 - 04:59) */
+.night {
+    --text-color: #d1d1ff;
+    background-color: #1c2b53; /* Deep Midnight Blue */
+    animation: pulse 10s ease-in-out infinite alternate;
+}
+.night #time-icon::before { content: "🌙"; }
+.night #greeting-text::before { content: "Good Night! "; }
+
+/* Icon Styling (makes the emoji look like an icon) */
+#time-icon::before {
+    font-size: 0.8em;
+    margin-right: 15px;
+    display: inline-block;
 }
