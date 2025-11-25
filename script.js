@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const hour = now.getHours();
         let timePhase = '';
 
-        // 1. Determine the Time Phase based on the 24-hour clock
+        // Determine the Time Phase based on the 24-hour clock
         if (hour >= 5 && hour < 12) {
             timePhase = 'morning';      // 05:00 to 11:59
         } else if (hour >= 12 && hour < 18) {
@@ -16,23 +16,23 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (hour >= 18 && hour < 21) {
             timePhase = 'evening';      // 18:00 to 20:59
         } else {
-            timePhase = 'night';        // 21:00 to 04:59
+            timePhase = 'night';        // 21:00 to 04:59 (Current Phase)
         }
 
-        // 2. Apply the Layout (CSS Class)
-        // Ensure only the current time phase class is on the body
+        // Apply the Layout (CSS Class)
+        // Clear all classes first to ensure a clean switch
         body.className = ''; 
         body.classList.add(timePhase);
         
-        // 3. Update Time Display
+        // Update Time Display
         const timeString = now.toLocaleTimeString('en-US', {
             hour: '2-digit',
             minute: '2-digit',
-            hour12: true // Display in 12-hour format like the image
+            hour12: true 
         });
         timeDisplayElement.textContent = timeString;
 
-        // Reset the greeting text, as the time-specific text is set via CSS ::before 
+        // Reset text content, as the greeting itself is handled by CSS ::before
         greetingTextElement.textContent = '';
     }
 
