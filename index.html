@@ -1,4 +1,11 @@
+<!doctype html>
 <html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Time Traveler Layout</title>
+<meta name="description" content="A time-aware webpage that transitions from sunrise to sunset with animated elements." />
+<link rel="stylesheet" href="style.css">
 </head>
 <body data-time="day">
 <main class="stage" role="main" aria-live="polite">
@@ -34,45 +41,3 @@
 </svg>
 </div>
 </div>
-
-
-<!-- Foreground card with content -->
-<section class="panel" aria-label="Time traveler control panel">
-<div style="display:flex;justify-content:space-between;gap:20px;align-items:start">
-<div>
-<div class="title">Time Traveler Layout</div>
-<h1 class="greeting" id="greeting">Good day</h1>
-<div class="sub" id="sub">Watch the page change with the time of day.</div>
-</div>
-<div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
-<div class="clock" id="clock">--:--:--</div>
-<div style="display:flex;gap:8px">
-<button class="btn" id="demoBtn">Jump to a time</button>
-<select id="timeSelect" class="btn" aria-label="Quick time selector">
-<option value="now">Now</option>
-<option value="6">06:00 — Dawn</option>
-<option value="9">09:00 — Morning</option>
-<option value="14">14:00 — Afternoon</option>
-<option value="18">18:00 — Dusk</option>
-<option value="22">22:00 — Night</option>
-</select>
-</div>
-</div>
-</div>
-
-
-<div class="meta">
-<div class="sub">Tip: Try the selector to simulate different times.</div>
-</div>
-</section>
-
-
-<div class="ground" aria-hidden="true">
-<div class="silhouette"></div>
-</div>
-</main>
-
-
-<script src="script.js"></script>
-</body>
-</html>
